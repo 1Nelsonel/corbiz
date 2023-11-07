@@ -1,24 +1,11 @@
 package router
 
-
 import (
-    "github.com/gofiber/fiber/v2"
+	"github.com/1Nelsonel/corbiz/pkg"
+	"github.com/gin-gonic/gin"
 )
 
-func SetupRoutes(app *fiber.App) {
-    app.Get("/", Home)
-    app.Get("/about", About)
-    app.Get("/contact", Contact)
-}
-
-func Home(c *fiber.Ctx) error {
-    return c.SendFile("views/home.html")
-}
-
-func About(c *fiber.Ctx) error {
-    return c.SendFile("views/about.html")
-}
-
-func Contact(c *fiber.Ctx) error {
-    return c.SendFile("views/contact.html")
+func SetupRoutes(r *gin.Engine)  {
+	r.GET("/", pkg.Home)
+    r.GET("about/", pkg.About)
 }

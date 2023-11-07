@@ -1,28 +1,38 @@
 package main
 
 import (
-	"log"
-
+	"github.com/1Nelsonel/corbiz/database"
 	"github.com/1Nelsonel/corbiz/router"
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/template/html/v2"
+	"github.com/gin-gonic/gin"
 )
 
-func main() {
+func init() {
+	database.ConnectDB()
+}
 
-	engine := html.New("./views", ".html")
+func main()  {
 
+	// Database connect
+	sqlDb, err := database.DBConn.DB()
+
+	if err != nil {
+		panic("Error in connection")
+	}
+
+	defer sqlDb.Close()
 	
-	app := fiber.New(fiber.Config{
-			Views: engine,
-	})
 
-	// Serve static files (CSS, JavaScript, images) from the "public" directory
+	app := gin.Default()
+
+	// Templates
+	app.LoadHTMLGlob("views/*")
+
+		// Serve static files (CSS, JavaScript, images) from the "public" directory
 	app.Static("/static", "./public")
 
-    // Set up application routes
-    router.SetupRoutes(app)
 
+	// Initialize routes by calling SetupRoutes
+	router.SetupRoutes(app)
 
-	log.Fatal(app.Listen(":3000"))
+	app.Run()
 }
