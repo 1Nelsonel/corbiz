@@ -5,7 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func SetupRoutes(r *gin.Engine)  {
+func SetupRoutes(r *gin.Engine) {
 	r.GET("/", pkg.Home)
-    r.GET("about/", pkg.About)
+	r.GET("/about/", pkg.About)
 }
